@@ -17,6 +17,9 @@ spec:
         image: europe-west1-docker.pkg.dev/alex-496108/mern-repo/mern-frontend:v1
         ports:
         - containerPort: 80
+        env:
+        - name: REACT_APP_API_URL
+          value: "http://backend-service:5000"
 ---
 apiVersion: v1
 kind: Service
