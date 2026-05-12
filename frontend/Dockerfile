@@ -4,7 +4,8 @@ WORKDIR /app
 ENV CI=true
 
 COPY package*.json ./
-RUN npm ci --no-audit --no-fund
+# Use npm ci when lockfile is in sync; fall back to npm install otherwise.
+RUN npm ci --no-audit --no-fund || npm install --no-audit --no-fund
 
 COPY . .
 

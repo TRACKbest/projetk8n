@@ -2,7 +2,10 @@
 FROM node:20-alpine AS deps
 WORKDIR /app
 COPY package*.json ./
-RUN npm ci --omit=dev && npm cache clean --force
+# Use npm ci when lockfile is in sync; fall back to npm install otherwise.
+RUN npm ci --omit=dev --no-audit --no-fund \
+ || npm install --omit=dev --no-audit --no-fund \
+ && npm cache clean --force
 
 # --- Runtime stage ---
 FROM node:20-alpine AS runtime
