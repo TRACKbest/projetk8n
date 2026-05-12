@@ -37,3 +37,10 @@ steps:
 images:
   - 'europe-west1-docker.pkg.dev/$PROJECT_ID/mern-repo/mern-backend:$COMMIT_SHA'
   - 'europe-west1-docker.pkg.dev/$PROJECT_ID/mern-repo/mern-frontend:$COMMIT_SHA'
+
+# Required when using a custom service account: send build logs to Cloud Logging
+# (the default GCS-based logging requires a logs bucket that a custom SA often
+# cannot access). Switch to REGIONAL_USER_OWNED_BUCKET if you prefer a bucket.
+options:
+  logging: CLOUD_LOGGING_ONLY
+  # default_logs_bucket_behavior: REGIONAL_USER_OWNED_BUCKET
