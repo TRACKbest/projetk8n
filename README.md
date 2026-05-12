@@ -205,7 +205,7 @@ kubectl apply -f k8s/ingress-https.yaml
 The backend advertises `/health` and `/ready` — wire them into
 `livenessProbe` and `readinessProbe`.
 
----
+---------------------------------------------------------------
 
 ## 🔒 Security Highlights
 
@@ -216,7 +216,7 @@ The backend advertises `/health` and `/ready` — wire them into
 - Centralized error handler strips stack traces in production
 - Backend container runs as a **non-root** user
 
----
+------------------------------
 
 ## 🧪 Scripts
 
