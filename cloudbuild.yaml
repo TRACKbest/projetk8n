@@ -1,0 +1,39 @@
+steps:
+  # Build Backend
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - 'europe-west1-docker.pkg.dev/$PROJECT_ID/mern-repo/mern-backend:$COMMIT_SHA'
+      - './backend'
+
+  # Build Frontend
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - 'europe-west1-docker.pkg.dev/$PROJECT_ID/mern-repo/mern-frontend:$COMMIT_SHA'
+      - './frontend'
+
+  # Push Backend
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - 'europe-west1-docker.pkg.dev/$PROJECT_ID/mern-repo/mern-backend:$COMMIT_SHA'
+
+  # Push Frontend
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - 'europe-west1-docker.pkg.dev/$PROJECT_ID/mern-repo/mern-frontend:$COMMIT_SHA'
+
+  # Deploy sur GKE
+  - name: 'gcr.io/cloud-builders/kubectl'
+    args: ['apply', '-f', 'k8s/']
+    env:
+      - 'CLOUDSDK_COMPUTE_REGION=europe-west1'
+      - 'CLOUDSDK_CONTAINER_CLUSTER=mern-cluster'
+
+images:
+  - 'europe-west1-docker.pkg.dev/$PROJECT_ID/mern-repo/mern-backend:$COMMIT_SHA'
+  - 'europe-west1-docker.pkg.dev/$PROJECT_ID/mern-repo/mern-frontend:$COMMIT_SHA'
